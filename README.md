@@ -48,63 +48,95 @@ for some i = 0, …, 22.
 
 ## Notes on the definitions and on earlier work
 
-**Why "range" is the number of distinct values.**
+This section makes two points.
 
-- The glossary of Brewster, Dinneen and Faber (p. 54) defines the range of a vector as "the number of distinct components",
-  and separately the scope as "the difference between the largest and the smallest components".
-  These authors tested Graffiti's conjectures by computer in 1990–91, and *Written on the Wall* (comment to conjecture 107)
-  lists 322 among the conjectures that passed their test on all graphs with at most 10 vertices.
-- *Written on the Wall* uses both words: conjecture 323, the next one, is about "the scope of positive eigenvalues".
-- The survey of Aouchiche and Hansen (2010) also takes the range to be the number of distinct values
-  (as reported in Section 5.2 of Roucairol and Cazenave, cited below).
-- If "range" is read as the largest eigenvalue minus the smallest, the inequality is trivial. For a connected graph with
-  n ≥ 2 vertices, the largest eigenvalue of the distance matrix is at least n − 1 (Rayleigh quotient of the all-ones vector)
-  and the smallest is at most −1 (Rayleigh quotient of e_i − e_j), so their difference is at least n,
-  while Inverse Even ≤ n because Even(v) ≥ 1.
+1. Conjecture 322 was not open simply because nobody had looked at it.
+2. With the definitions of the Graffiti glossary, the graph above is, to our knowledge, the first counterexample,
+   and there are good reasons to read the conjecture with these definitions.
 
-So conjecture 322 is settled under either reading: it is false with the glossary's definition (the graph above),
-and trivially true with the other one.
+### 1. The conjecture had been examined before
 
-**The 4-cycle is not a counterexample.**
-M. Roucairol and T. Cazenave, *Refutation of Spectral Graph Theory Conjectures with Search Algorithms*
-([arXiv:2409.18626](https://arxiv.org/abs/2409.18626), ECAI 2025), Section 5.2, report that with the "number of distinct values"
-reading their programs refute 322 with the cycle of length 4 ("the cycle of size 4 has 3 distinct distance eigenvalues and
-an Inverse Even of 4"). They suspected an error in the definitions ("An error with the definitions seems more likely than
-this conjecture being left open after dozens of articles with such a simple counter-example") and ran their search
-with the largest eigenvalue minus the smallest instead, finding no counterexample among triangle-free graphs with up to
-50 vertices (their Table 1, where 322 is listed as open).
-Their computation counts the vertices at even distance without the vertex itself; this is where Inverse Even = 4
-comes from ([code](https://github.com/RoucairolMilo/refutationGBR/blob/main/src/models/conjectures/invariants.rs)).
-With the definition above (distance zero included), every vertex of the 4-cycle has Even = 2, so Inverse Even = 2,
-and the distance matrix has eigenvalues 4, 0, −2, −2, so the range is 3. The inequality 2 ≤ 3 holds.
-This agrees with the 1990–91 test, which covered all graphs with at most 10 vertices.
+| year | who | what |
+|---|---|---|
+| 1990–91 | Brewster, Dinneen, Faber | Tested about 200 of Graffiti's conjectures on all graphs with at most 10 vertices and refuted over 40 of them. *Written on the Wall* (comment to conjecture 107) lists 322 among the conjectures that passed. |
+| 2024 | Roucairol, Cazenave | Searched for counterexamples to Graffiti's spectral conjectures with eight search algorithms, working from the survey of Aouchiche and Hansen (2010). 322 is one of the conjectures they report as still open (their Table 1). |
+| 2026 | this repository | Repeated the test on all connected triangle-free graphs with at most 10 vertices (11569 graphs, exact arithmetic, `check_small.py`): no counterexample. The graph above, with 2048 vertices, is a counterexample. |
 
-**Why Even counts the vertex itself.**
-The glossary says "at even distance (including zero)". *Written on the Wall* agrees: the remark of Shearer quoted below
-gives Even = 254 = 1 + 253 for the graph of this repository, not 253.
+So the conjecture was known, it was listed as open, and it had been tested by computer.
+No counterexample has at most 10 vertices, which is why an exhaustive test did not settle it.
+The smallest counterexample is not known.
 
-**Summary of the readings.**
+The search of 2024 used other definitions (Section 5.2 of the paper), so it was not a test of the conjecture
+as defined in the glossary:
+
+- With the range as the number of distinct values, their programs returned the cycle of length 4:
+  "the cycle of size 4 has 3 distinct distance eigenvalues and an Inverse Even of 4".
+  The value 4 comes from counting the vertices at even distance without the vertex itself ([code](https://github.com/RoucairolMilo/refutationGBR/blob/main/src/models/conjectures/invariants.rs)).
+  With the glossary's definition, every vertex of the 4-cycle has Even = 2, so Inverse Even = 2;
+  the distance matrix has eigenvalues 4, 0, −2, −2, so the range is 3; and 2 ≤ 3.
+  The 4-cycle is not a counterexample.
+- The authors did not accept the 4-cycle as a refutation ("An error with the definitions seems more likely than
+  this conjecture being left open after dozens of articles with such a simple counter-example").
+  They took the range to be the largest eigenvalue minus the smallest instead, and found no counterexample among
+  triangle-free graphs with up to 50 vertices. With that reading the inequality is trivially true (see below),
+  so no search could have found one.
+
+### 2. The reading under which this is the first counterexample
+
+The graph above is a counterexample when
+
+- the **range** of a vector is the number of its distinct values, and
+- **Even(v)** counts v itself (distance zero).
+
+Reasons for reading the conjecture this way:
+
+- **The glossary.** Brewster, Dinneen and Faber, who tested the conjectures with Graffiti's vocabulary, define
+  Range as "The number of distinct components" (p. 54),
+  Scope as "The difference between the largest and the smallest components" (p. 54),
+  and the Even vector by "the number of vertices an even distance (including zero) from vertex i" (p. 52).
+- ***Written on the Wall* uses "range" and "scope" for different quantities.**
+  Conjectures 82 and 83 are the same statement with the two words exchanged
+  ("range [scope] of coordinates of a maximal clique ≤ maximum of Even").
+  According to the comments, 82 "is valid for all maximal cliques", while for 83 a counterexample
+  "to the strongest version" was found (W. Staton, March 1988).
+  Conjecture 323, next to 322, is about "the scope of positive eigenvalues".
+- ***Written on the Wall* counts the vertex itself in Even.**
+  For the graph of this repository it records "the mean of Even/n = 254/2048"
+  (remark of J. B. Shearer, July 1988), and 254 = 1 + 253.
+- **The survey.** Aouchiche and Hansen (2010) also take the range to be the number of distinct values
+  (as reported in Section 5.2 of Roucairol and Cazenave).
+- **The other reading makes the conjecture trivial.**
+  Suppose the range is the largest eigenvalue minus the smallest. For a connected graph with n ≥ 2 vertices,
+  the largest eigenvalue of the distance matrix is at least n − 1 (Rayleigh quotient of the all-ones vector)
+  and the smallest is at most −1 (Rayleigh quotient of e_i − e_j), so the range is at least n,
+  while Inverse Even ≤ n. The inequality would hold for every connected graph,
+  and the hypothesis "triangle-free" would play no role.
+
+Summary of the readings:
 
 | range | Even(v) counts v itself | conjecture 322 |
 |---|---|---|
-| number of distinct values (glossary) | yes (glossary) | false: the graph above. True for all graphs with at most 10 vertices (1990–91 test) |
+| number of distinct values (glossary) | yes (glossary) | false: the graph above. No counterexample with at most 10 vertices |
 | number of distinct values | no | false already for the 4-cycle (Roucairol and Cazenave). The graph above also violates it (2048/253 > 4) |
 | largest minus smallest | yes or no | trivially true for n ≥ 2 |
 
-**Novelty.**
-To our knowledge, the graph above is the first counterexample to conjecture 322 under the glossary's definitions
-(first row of the table).
-The conjecture was listed as open by Roucairol and Cazenave (2024), following the survey of Aouchiche and Hansen (2010).
+**The claim.**
+Under the glossary's definitions (first row of the table), the graph above is, to our knowledge,
+the first counterexample to conjecture 322.
 On 2026-10-07 we found no earlier counterexample in the literature or in the public records of current computer-assisted
 work on these conjectures that we know of; we cannot exclude unpublished work.
-By the 1990–91 test, any counterexample has more than 10 vertices; the smallest one is not known.
+The claim depends on the reading: if Even(v) does not count v (second row), the 4-cycle came first.
 
-The graph itself is not new: *Written on the Wall* already mentions it, in a remark of J. B. Shearer (July 1988) on how small
-the mean of Even can be ("the mean of Even/n = 254/2048").
+**What is new.**
+The graph itself is not new: *Written on the Wall* already mentions it, in the remark of Shearer quoted above,
+which is about how small the mean of Even can be.
+What is new is the observation that its distance matrix has only four distinct eigenvalues,
+so that it violates conjecture 322.
 
 References for this section:
 M. Aouchiche, P. Hansen, *A survey of automated conjectures in spectral graph theory*, Linear Algebra Appl. 432 (2010) 2293–2322;
-M. Roucairol, T. Cazenave, arXiv:2409.18626.
+M. Roucairol, T. Cazenave, *Refutation of Spectral Graph Theory Conjectures with Search Algorithms*,
+[arXiv:2409.18626](https://arxiv.org/abs/2409.18626) (ECAI 2025).
 
 ## Verification
 
@@ -113,10 +145,12 @@ M. Roucairol, T. Cazenave, arXiv:2409.18626.
 | `verify_certificate.py` | reads only `data/edges.txt`; computes distances, the Even vector and Inverse Even exactly, and certifies the distance spectrum exactly (∏(D − rI) = 0 in integer arithmetic, multiplicities from tr(Dᵏ)) | Python 3, numpy |
 | `verify_cayley.py` | builds the graph as a Cayley graph on F₂¹¹ and computes the distance spectrum exactly with characters | Python 3 |
 | `build_graph.py` | regenerates `data/` from the Golay code (coset leaders of weight ≤ 3) | Python 3 |
+| `check_small.py` | generates all connected triangle-free graphs with at most 10 vertices (11569 graphs up to isomorphism; the counts agree with OEIS A024607) and checks the inequality in exact arithmetic: no counterexample. Also shows that the 4-cycle is the first violation when Even(v) does not count v | Python 3 |
 
 ```
 python verify_certificate.py
 python verify_cayley.py
+python check_small.py
 ```
 
 ## License
