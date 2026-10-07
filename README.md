@@ -100,6 +100,12 @@ Reasons for reading the conjecture this way:
   According to the comments, 82 "is valid for all maximal cliques", while for 83 a counterexample
   "to the strongest version" was found (W. Staton, March 1988).
   Conjecture 323, next to 322, is about "the scope of positive eigenvalues".
+- **Conjecture 578 separates the two meanings.**
+  It reads: "If G is a tree then the radius ≤ range of positive eigenvalues. Siemion Fajtlowicz. February 89."
+  With the number of distinct values this is true: a tree of diameter d has at least d + 1 distinct eigenvalues,
+  placed symmetrically about 0, hence at least ⌈d/2⌉ distinct positive ones, and ⌈d/2⌉ is the radius of the tree.
+  With the largest minus the smallest it fails for a single edge: the only positive eigenvalue is 1,
+  so the difference is 0, while the radius is 1.
 - ***Written on the Wall* counts the vertex itself in Even.**
   For the graph of this repository it records "the mean of Even/n = 254/2048"
   (remark of J. B. Shearer, July 1988), and 254 = 1 + 253.
