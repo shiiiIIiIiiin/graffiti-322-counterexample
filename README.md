@@ -52,10 +52,11 @@ triangle-freeness, the distances, the intersection array, Even and the spectrum.
 
 ## Notes on the definitions and on earlier work
 
-This section makes two points.
+This section makes three points.
 
 1. Conjecture 322 was not open simply because nobody had looked at it.
-2. With the definitions of the glossary [2], the graph above is, to our knowledge, the first counterexample,
+2. The 4-cycle, reported in 2024 as a counterexample under one reading, is not a counterexample under the glossary [2].
+3. With the definitions of the glossary [2], the graph above is, to our knowledge, the first reported counterexample,
    and there are good reasons to read the conjecture with these definitions.
 
 ### 1. The conjecture had been examined before
@@ -71,24 +72,33 @@ So the conjecture was known, it was listed as open in 2010 and in 2024, and it h
 No counterexample has at most 10 vertices, which is why an exhaustive test did not settle it.
 The smallest counterexample is not known.
 
-The search of 2024 used other definitions [4, Section 5.2], so it was not a test of the conjecture
-as defined in the glossary:
+### 2. Why the 4-cycle is not a counterexample
 
-- With the range as the number of distinct values, their programs returned the cycle of length 4:
-  "the cycle of size 4 has 3 distinct distance eigenvalues and an Inverse Even of 4" [4, Section 5.2].
-  The value 4 comes from counting the vertices at even distance without the vertex itself
-  (the function `even_vec` in their code skips the vertex itself [5]).
-  With the glossary's definition, every vertex of the 4-cycle has Even = 2, so Inverse Even = 2;
-  the distance matrix has eigenvalues 4, 0, −2, −2, so the range is 3; and 2 ≤ 3.
-  The 4-cycle is not a counterexample.
-- The authors did not accept the 4-cycle as a refutation: "An error with the definitions seems more likely than
-  this conjecture being left open after dozens of articles with such a simple counter-example" [4, Section 5.2].
-  They took the range to be the largest eigenvalue minus the smallest instead ("The results featured in table 1
-  for Graffiti 322 use the usual definition of range" [4, Section 5.2]; in the code, the scope of the
-  distance eigenvalues [5]), and searched triangle-free graphs with up to 50 vertices [4, Table 1].
-  With that reading the inequality is trivially true (see below), so no search could have found a counterexample.
+Roucairol and Cazenave [4, Section 5.2] report that with the range read as the number of distinct values,
+their programs refuted 322 with the cycle of length 4:
+"the cycle of size 4 has 3 distinct distance eigenvalues and an Inverse Even of 4".
 
-### 2. The reading under which this is the first counterexample
+The value 4 does not agree with the glossary. Their code counts the vertices at even distance without the vertex
+itself (the function `even_vec` skips it [5]), whereas the glossary counts "an even distance (including zero)" [2, p. 52].
+With the glossary's definition:
+
+- every vertex of the 4-cycle is at distance 0 from itself and at distance 2 from the opposite vertex, so Even = 2
+  and Inverse Even = 4 · 1/2 = 2;
+- the distance matrix has eigenvalues 4, 0, −2, −2, so the range is 3;
+- 2 ≤ 3, so the inequality holds.
+
+This agrees with the 1990–91 test, which passed 322 on all graphs with at most 10 vertices [1, p. 46],
+and with `check_small.py`, which reports the 4-cycle as a violation only when Even(v) does not count v.
+
+The authors themselves did not accept the 4-cycle as a refutation: "An error with the definitions seems more likely than
+this conjecture being left open after dozens of articles with such a simple counter-example" [4, Section 5.2].
+They took the range to be the largest eigenvalue minus the smallest instead ("The results featured in table 1
+for Graffiti 322 use the usual definition of range" [4, Section 5.2]; in the code, the scope of the
+distance eigenvalues [5]), and searched triangle-free graphs with up to 50 vertices [4, Table 1].
+With that reading the inequality is trivially true (see Section 3), so no search could have found a counterexample.
+So the search of 2024 was not a test of the conjecture as defined in the glossary.
+
+### 3. The reading under which this is the first counterexample
 
 The graph above is a counterexample when
 
@@ -153,7 +163,7 @@ The graph above is a counterexample when
 
 **The claim.**
 Under the glossary's definitions (first row of the table), the graph above is, to our knowledge,
-the first counterexample to conjecture 322.
+the first reported counterexample to conjecture 322.
 On 2026-10-07 we found no earlier counterexample in the literature or in the public records of current computer-assisted
 work on these conjectures that we know of (for example, the ledger of AI Village [6] has no entry for this conjecture);
 we cannot exclude unpublished work.
