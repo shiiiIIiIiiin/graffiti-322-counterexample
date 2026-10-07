@@ -46,6 +46,66 @@ Construction: the vertices are the elements of F₂[x]/(g(x)) with
 g(x) = x¹¹ + x¹⁰ + x⁶ + x⁵ + x⁴ + x² + 1, and two vertices are adjacent when they differ by x^i mod g(x)
 for some i = 0, …, 22.
 
+## Notes on the definitions and on earlier work
+
+**Why "range" is the number of distinct values.**
+
+- The glossary of Brewster, Dinneen and Faber (p. 54) defines the range of a vector as "the number of distinct components",
+  and separately the scope as "the difference between the largest and the smallest components".
+  These authors tested Graffiti's conjectures by computer in 1990–91, and *Written on the Wall* (comment to conjecture 107)
+  lists 322 among the conjectures that passed their test on all graphs with at most 10 vertices.
+- *Written on the Wall* uses both words: conjecture 323, the next one, is about "the scope of positive eigenvalues".
+- The survey of Aouchiche and Hansen (2010) also takes the range to be the number of distinct values
+  (as reported in Section 5.2 of Roucairol and Cazenave, cited below).
+- If "range" is read as the largest eigenvalue minus the smallest, the inequality is trivial. For a connected graph with
+  n ≥ 2 vertices, the largest eigenvalue of the distance matrix is at least n − 1 (Rayleigh quotient of the all-ones vector)
+  and the smallest is at most −1 (Rayleigh quotient of e_i − e_j), so their difference is at least n,
+  while Inverse Even ≤ n because Even(v) ≥ 1.
+
+So conjecture 322 is settled under either reading: it is false with the glossary's definition (the graph above),
+and trivially true with the other one.
+
+**The 4-cycle is not a counterexample.**
+M. Roucairol and T. Cazenave, *Refutation of Spectral Graph Theory Conjectures with Search Algorithms*
+([arXiv:2409.18626](https://arxiv.org/abs/2409.18626), ECAI 2025), Section 5.2, report that with the "number of distinct values"
+reading their programs refute 322 with the cycle of length 4 ("the cycle of size 4 has 3 distinct distance eigenvalues and
+an Inverse Even of 4"). They suspected an error in the definitions ("An error with the definitions seems more likely than
+this conjecture being left open after dozens of articles with such a simple counter-example") and ran their search
+with the largest eigenvalue minus the smallest instead, finding no counterexample among triangle-free graphs with up to
+50 vertices (their Table 1, where 322 is listed as open).
+Their computation counts the vertices at even distance without the vertex itself; this is where Inverse Even = 4
+comes from ([code](https://github.com/RoucairolMilo/refutationGBR/blob/main/src/models/conjectures/invariants.rs)).
+With the definition above (distance zero included), every vertex of the 4-cycle has Even = 2, so Inverse Even = 2,
+and the distance matrix has eigenvalues 4, 0, −2, −2, so the range is 3. The inequality 2 ≤ 3 holds.
+This agrees with the 1990–91 test, which covered all graphs with at most 10 vertices.
+
+**Why Even counts the vertex itself.**
+The glossary says "at even distance (including zero)". *Written on the Wall* agrees: the remark of Shearer quoted below
+gives Even = 254 = 1 + 253 for the graph of this repository, not 253.
+
+**Summary of the readings.**
+
+| range | Even(v) counts v itself | conjecture 322 |
+|---|---|---|
+| number of distinct values (glossary) | yes (glossary) | false: the graph above. True for all graphs with at most 10 vertices (1990–91 test) |
+| number of distinct values | no | false already for the 4-cycle (Roucairol and Cazenave). The graph above also violates it (2048/253 > 4) |
+| largest minus smallest | yes or no | trivially true for n ≥ 2 |
+
+**Novelty.**
+To our knowledge, the graph above is the first counterexample to conjecture 322 under the glossary's definitions
+(first row of the table).
+The conjecture was listed as open by Roucairol and Cazenave (2024), following the survey of Aouchiche and Hansen (2010).
+On 2026-10-07 we found no earlier counterexample in the literature or in the public records of current computer-assisted
+work on these conjectures that we know of; we cannot exclude unpublished work.
+By the 1990–91 test, any counterexample has more than 10 vertices; the smallest one is not known.
+
+The graph itself is not new: *Written on the Wall* already mentions it, in a remark of J. B. Shearer (July 1988) on how small
+the mean of Even can be ("the mean of Even/n = 254/2048").
+
+References for this section:
+M. Aouchiche, P. Hansen, *A survey of automated conjectures in spectral graph theory*, Linear Algebra Appl. 432 (2010) 2293–2322;
+M. Roucairol, T. Cazenave, arXiv:2409.18626.
+
 ## Verification
 
 | script | method | requires |
