@@ -59,18 +59,19 @@ This section makes three points.
 3. With the definitions of the glossary [2], the graph above is, to our knowledge, the first reported counterexample,
    and there are good reasons to read the conjecture with these definitions.
 
-### 1. The conjecture had been examined before
+### 1. The conjecture was not neglected
 
-| year | who | what |
-|---|---|---|
-| 1990–91 | Brewster, Dinneen, Faber [2] | Tested "approximately 200 of the Graffiti conjectures" on "all the nonisomorphic graphs with 10 or fewer vertices" and found "counterexamples for over 40 of them" [2, p. 35]. *Written on the Wall* lists 322 among "the conjectures which passed their test" (comment to conjecture 107, dated "August, '90 - August '91. [BDF]") [1, p. 46]. |
-| 2010 | Aouchiche, Hansen [3] | Survey of computer-generated conjectures in spectral graph theory. Its Table 6 of Graffiti's spectral conjectures lists 322 as open ("O") [3, p. 2318]. This is a survey, not a computer test. |
-| 2024 | Roucairol, Cazenave [4] | Searched for counterexamples to Graffiti's spectral conjectures taken from the survey [3] with eight search algorithms. 322 is one of the conjectures still marked open in their Table 1. |
-| 2026 | this repository | Repeated the test on all connected triangle-free graphs with at most 10 vertices (11569 graphs, exact arithmetic, `check_small.py`): no counterexample. The graph above, with 2048 vertices, is a counterexample. |
+It was tested by computer, listed as open, and taken up again by a search in 2024.
+Each of these had a limit that explains why the counterexample was not found.
 
-So the conjecture was known, it was listed as open in 2010 and in 2024, and it had been tested by computer.
-No counterexample has at most 10 vertices, which is why an exhaustive test did not settle it.
-The smallest counterexample is not known.
+| year | who | what they did | why it did not find the counterexample |
+|---|---|---|---|
+| 1990–91 | Brewster, Dinneen, Faber [2] | Tested "approximately 200 of the Graffiti conjectures" on "all the nonisomorphic graphs with 10 or fewer vertices" and found "counterexamples for over 40 of them" [2, p. 35]. *Written on the Wall* lists 322 among "the conjectures which passed their test" (comment to conjecture 107, dated "August, '90 - August '91. [BDF]") [1, p. 46]. | The test covered only graphs with at most 10 vertices, and there is no counterexample among them (`check_small.py`). |
+| 2010 | Aouchiche, Hansen [3] | Survey of computer-generated conjectures in spectral graph theory. Its Table 6 lists 322 as open ("O") [3, p. 2318]. | It is a survey, not a search: Table 6 gives the status of the conjectures "according to the Written on the Wall file" [3, p. 2312]. |
+| 2024 | Roucairol, Cazenave [4] | Searched for counterexamples to the conjectures of the survey [3] with eight search algorithms, on triangle-free graphs with up to 50 vertices for 322. 322 is still marked open in their Table 1. | They searched with the range read as the largest eigenvalue minus the smallest, under which 322 is trivially true. They had tried the glossary's range first, but with Even not counting the vertex itself the 4-cycle looked like a counterexample, and they took this as a sign that the definitions were wrong (Section 2). Whether their search would have found a counterexample under the glossary's definitions is not known. |
+| 2026 | this repository | Repeated the test on all connected triangle-free graphs with at most 10 vertices (11569 graphs, exact arithmetic, `check_small.py`): no counterexample. The graph above, with 2048 vertices, is a counterexample. | — |
+
+The smallest counterexample is not known: it has more than 10 vertices and at most 2048.
 
 ### 2. Why the 4-cycle is not a counterexample
 
