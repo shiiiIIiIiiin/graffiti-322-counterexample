@@ -4,6 +4,8 @@
 
 Shin Kimura (木村心), 2026-10-07
 
+Found with the help of AI (Claude by Anthropic).
+
 ## Conjecture
 
 S. Fajtlowicz, *Written on the Wall* (July 2004 version), conjecture 322:

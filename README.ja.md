@@ -4,6 +4,8 @@
 
 木村心（Shin Kimura）、2026-10-07
 
+AI（Anthropic の Claude）の助けを借りて見つけた。
+
 ## 予想
 
 S. Fajtlowicz『Written on the Wall』（2004 年 7 月版）の予想 322：
