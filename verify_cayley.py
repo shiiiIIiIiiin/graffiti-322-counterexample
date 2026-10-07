@@ -45,6 +45,18 @@ def main():
     assert min(dist) >= 0, "not connected"
     print(f"connected: yes, distance counts from a vertex: {sorted(Counter(dist).items())}")
 
+    # distance-regular: for x at distance i from 0, the numbers of neighbours of x at distance
+    # i - 1, i, i + 1 from 0 depend only on i (translations are automorphisms, so vertex 0 suffices)
+    counts = {}
+    for x in range(ORDER):
+        c = Counter(dist[x ^ g] - dist[x] for g in gens)
+        assert counts.setdefault(dist[x], c) == c, "not distance-regular"
+    diam = max(dist)
+    b = [counts[i][1] for i in range(diam)]
+    c = [counts[i][-1] for i in range(1, diam + 1)]
+    assert (b, c) == ([23, 22, 21], [1, 2, 3])
+    print(f"distance-regular with intersection array {{{', '.join(map(str, b))}; {', '.join(map(str, c))}}}")
+
     # vertex-transitive, so every vertex has the same Even value
     even = sum(1 for d in dist if d % 2 == 0)  # includes distance 0
     inv_even = Fraction(ORDER, even)
