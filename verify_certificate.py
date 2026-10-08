@@ -1,10 +1,11 @@
 """Check the counterexample to Graffiti conjecture 322 from the edge list alone.
 
-Reads data/edges.txt and verifies, without using any structure of the Golay code:
+Reads data/edges.txt (or the edge list given as the first argument, e.g. data/edges-1024.txt)
+and verifies, without using any structure of the Golay code:
   1. the graph is simple, connected and triangle-free;
   2. Inverse Even = sum over v of 1/Even(v), where Even(v) counts the vertices at even
      distance from v, including v itself (computed exactly as a fraction);
-  3. the distance matrix D has exactly 4 distinct eigenvalues (range = 4):
+  3. the distance matrix D has at most 4 distinct eigenvalues, and their number is the range:
      the candidate eigenvalues are located numerically, then certified exactly by
        - the integer identity  prod_i (D - r_i I) = 0, and
        - the multiplicities obtained from tr(D^k), k = 0..3, which must be positive integers;
@@ -13,6 +14,7 @@ Reads data/edges.txt and verifies, without using any structure of the Golay code
 Requires numpy. Integer matrix products are computed with float64 BLAS and certified exact
 (see exact_matmul).
 """
+import sys
 from collections import Counter
 from fractions import Fraction
 from pathlib import Path
@@ -47,7 +49,9 @@ def read_edges(path):
 
 
 def main():
-    edges = read_edges(Path(__file__).with_name("data") / "edges.txt")
+    path = Path(sys.argv[1]) if len(sys.argv) > 1 else Path(__file__).with_name("data") / "edges.txt"
+    edges = read_edges(path)
+    print(f"edge list: {path}")
     n = 1 + max(max(e) for e in edges)
     A = np.zeros((n, n), dtype=np.int64)
     for u, v in edges:
@@ -100,6 +104,7 @@ def main():
     D2 = exact_matmul(D, D)
     traces = [n, int(np.trace(D)), int(np.trace(D2)), int((D2 * D.T).sum())]
     k_ = len(roots)
+    assert k_ <= len(traces), "more distinct eigenvalues than traces computed"
     V = [[Fraction(r) ** p for r in roots] for p in range(k_)]
     b = [Fraction(t) for t in traces[:k_]]
     # solve the Vandermonde system V mult = b exactly (Gaussian elimination over Q)

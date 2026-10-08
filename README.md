@@ -2,7 +2,7 @@
 
 [日本語](README.ja.md)
 
-Shin Kimura (木村心), 2026-10-07
+Shin Kimura (木村心), 2026-10-07 (updated 2026-10-08, see [History](#history))
 
 Found with the help of AI (Claude by Anthropic).
 
@@ -50,13 +50,41 @@ Every property stated in this section is checked by the scripts below: `build_gr
 a code with minimum distance 7 and the weight distribution of the Golay code, and `verify_cayley.py` checks
 triangle-freeness, the distances, the intersection array, Even and the spectrum.
 
+## A smaller counterexample
+
+Deleting one coordinate of the code above gives the punctured Golay code [22,12,6]. Its coset graph
+(1024 vertices, 22-regular, triangle-free, distance-regular with intersection array {22,21,20; 1,2,6})
+is also a counterexample.
+
+- Edge list: [`data/edges-1024.txt`](data/edges-1024.txt) (vertices 0–1023, 11264 edges)
+- Vertex labels: [`data/vertices-1024.txt`](data/vertices-1024.txt) (a representative of each vertex in F₂[x]/(g(x)))
+
+| | value |
+|---|---|
+| distances from any vertex | 1 vertex at distance 0, 22 at 1, 231 at 2, 770 at 3 |
+| Even(v) | 1 + 231 = 232 for every v |
+| Inverse Even | 1024/232 = 128/29 ≈ 4.414 |
+| distance spectrum | 2794¹, 10⁶¹⁶, −22⁴⁰⁷ |
+| range of eigenvalues of Distance | 3 |
+
+Since 128/29 > 3, the inequality fails. The diameter is 3, but the distance matrix has only three distinct eigenvalues.
+
+Construction: identify each vertex a of the graph above with a + (x²² mod g(x)). This gives 1024 vertices,
+and two of them are adjacent when they differ by x^i mod g(x) for some i = 0, …, 21.
+
+Deleting one more coordinate does not give a counterexample: the coset graph of [21,12,5] (512 vertices)
+has Inverse Even = 512/211 ≈ 2.43 and four distinct distance eigenvalues.
+
+`check_quotients.py` checks every property stated in this section, and `verify_certificate.py data/edges-1024.txt`
+checks the edge list.
+
 ## Notes on the definitions and on earlier work
 
 This section makes three points.
 
 1. Conjecture 322 was not open simply because nobody had looked at it.
 2. The 4-cycle, reported in 2024 as a counterexample under one reading, is not a counterexample under the glossary [2].
-3. With the definitions of the glossary [2], the graph above is, to our knowledge, the first reported counterexample,
+3. With the definitions of the glossary [2], the graph with 2048 vertices is, to our knowledge, the first reported counterexample,
    and there are good reasons to read the conjecture with these definitions.
 
 ### 1. The conjecture was not neglected
@@ -69,9 +97,9 @@ Each of these had a limit that explains why the counterexample was not found.
 | 1990–91 | Brewster, Dinneen, Faber [2] | Tested "approximately 200 of the Graffiti conjectures" on "all the nonisomorphic graphs with 10 or fewer vertices" and found "counterexamples for over 40 of them" [2, p. 35]. *Written on the Wall* lists 322 among "the conjectures which passed their test" (comment to conjecture 107, dated "August, '90 - August '91. [BDF]") [1, p. 46]. | The test covered only graphs with at most 10 vertices, and there is no counterexample among them (`check_small.py`). |
 | 2010 | Aouchiche, Hansen [3] | Survey of computer-generated conjectures in spectral graph theory. Its Table 6 lists 322 as open ("O") [3, p. 2318]. | It is a survey, not a search: Table 6 gives the status of the conjectures "according to the Written on the Wall file" [3, p. 2312]. |
 | 2024 | Roucairol, Cazenave [4] | Searched for counterexamples to the conjectures of the survey [3] with eight search algorithms, on triangle-free graphs with up to 50 vertices for 322. 322 is still marked open in their Table 1. | They searched with the range read as the largest eigenvalue minus the smallest, under which 322 is trivially true. They had tried the glossary's range first, but with Even not counting the vertex itself the 4-cycle looked like a counterexample, and they took this as a sign that the definitions were wrong (Section 2). Whether their search would have found a counterexample under the glossary's definitions is not known. |
-| 2026 | this repository | Repeated the test on all connected triangle-free graphs with at most 10 vertices (11569 graphs, exact arithmetic, `check_small.py`): no counterexample. The graph above, with 2048 vertices, is a counterexample. | — |
+| 2026 | this repository | Repeated the test on all connected triangle-free graphs with at most 10 vertices (11569 graphs, exact arithmetic, `check_small.py`): no counterexample. The graphs above, with 2048 and 1024 vertices, are counterexamples. | — |
 
-The smallest counterexample is not known: it has more than 10 vertices and at most 2048.
+The smallest counterexample is not known: it has more than 10 vertices and at most 1024.
 
 ### 2. Why the 4-cycle is not a counterexample
 
@@ -101,7 +129,7 @@ So the search of 2024 was not a test of the conjecture as defined in the glossar
 
 ### 3. The reading under which this is the first counterexample
 
-The graph above is a counterexample when
+The graphs above are counterexamples when
 
 - the **range** of a vector is the number of its distinct values, and
 - **Even(v)** counts v itself (distance zero).
@@ -158,12 +186,12 @@ The graph above is a counterexample when
 
 | range | Even(v) counts v itself | conjecture 322 |
 |---|---|---|
-| number of distinct values (glossary) | yes (glossary) | false: the graph above. No counterexample with at most 10 vertices |
-| number of distinct values | no | false already for the 4-cycle [4]. The graph above also violates it (2048/253 > 4) |
+| number of distinct values (glossary) | yes (glossary) | false: the graphs above. No counterexample with at most 10 vertices |
+| number of distinct values | no | false already for the 4-cycle [4]. The graphs above also violate it (2048/253 > 4, 1024/231 > 3) |
 | largest minus smallest | yes or no | trivially true for n ≥ 2 |
 
 **The claim.**
-Under the glossary's definitions (first row of the table), the graph above is, to our knowledge,
+Under the glossary's definitions (first row of the table), the graph with 2048 vertices is, to our knowledge,
 the first reported counterexample to conjecture 322.
 On 2026-10-07 we found no earlier counterexample in the literature or in the public records of current computer-assisted
 work on these conjectures that we know of (for example, the ledger of AI Village [6] has no entry for this conjecture);
@@ -174,20 +202,24 @@ The claim depends on the reading: if Even(v) does not count v (second row), the 
 The graph itself is not new: *Written on the Wall* already mentions it, in the remark of Shearer quoted above,
 which is about how small the mean of Even can be.
 What is new is the observation that its distance matrix has only four distinct eigenvalues,
-so that it violates conjecture 322.
+so that it violates conjecture 322, and likewise that the graph with 1024 vertices, whose distance matrix has
+only three, violates it.
 
 ## Verification
 
 | script | method | requires |
 |---|---|---|
-| `verify_certificate.py` | reads only `data/edges.txt`; computes distances, the Even vector and Inverse Even exactly, and certifies the distance spectrum exactly (∏(D − rI) = 0 in integer arithmetic, multiplicities from tr(Dᵏ)) | Python 3, numpy |
+| `verify_certificate.py` | reads only `data/edges.txt` (or the edge list given as argument, such as `data/edges-1024.txt`); computes distances, the Even vector and Inverse Even exactly, and certifies the distance spectrum exactly (∏(D − rI) = 0 in integer arithmetic, multiplicities from tr(Dᵏ)) | Python 3, numpy |
 | `verify_cayley.py` | builds the graph as a Cayley graph on F₂¹¹; checks triangle-freeness, the distances and the intersection array; computes the distance spectrum exactly with characters | Python 3 |
-| `build_graph.py` | checks that g(x) generates a [23,12,7] code with the weight distribution of the Golay code, and regenerates `data/` from it (coset leaders of weight ≤ 3) | Python 3 |
+| `build_graph.py` | checks that g(x) generates a [23,12,7] code with the weight distribution of the Golay code, and regenerates `data/edges.txt` and `data/vertices.txt` from it (coset leaders of weight ≤ 3) | Python 3 |
+| `check_quotients.py` | builds the coset graphs of the codes obtained by deleting 0, 1 and 2 coordinates (2048, 1024 and 512 vertices) as Cayley graphs; checks triangle-freeness, the distances and the intersection arrays; computes the distance spectra exactly with characters. With `--write-data`, regenerates `data/edges-1024.txt` and `data/vertices-1024.txt` | Python 3 |
 | `check_small.py` | generates all connected triangle-free graphs with at most 10 vertices (11569 graphs up to isomorphism; the counts agree with OEIS A024607 [7]) and checks the inequality in exact arithmetic: no counterexample. Also shows that the 4-cycle is the first violation when Even(v) does not count v | Python 3 |
 
 ```
 python verify_certificate.py
+python verify_certificate.py data/edges-1024.txt
 python verify_cayley.py
+python check_quotients.py
 python check_small.py
 ```
 
@@ -218,6 +250,15 @@ All quotations above were checked against the documents below on 2026-10-08.
 - **[6]** AI Village, [graffiti-verification](https://gitlab.com/ai-village-agents/village/graffiti-verification),
   file `verify/ledger.tsv` at commit f2a1f1d (retrieved 2026-10-07).
 - **[7]** OEIS, [A024607](https://oeis.org/A024607): Number of connected triangle-free graphs on n unlabeled nodes.
+
+## History
+
+- 2026-10-07: Published the counterexample with 2048 vertices (the coset graph of the Golay code [23,12,7]),
+  found with the help of AI (Claude by Anthropic).
+- 2026-10-08: Added the notes on the definitions and on earlier work, and the check of all graphs with at most 10 vertices.
+- 2026-10-08: The author noticed that the coset graph of the punctured code [22,12,6] (1024 vertices) is also
+  a counterexample, and verified it by computation with Claude (`check_quotients.py`,
+  `verify_certificate.py data/edges-1024.txt`). The smallest counterexample therefore has at most 1024 vertices.
 
 ## License
 
